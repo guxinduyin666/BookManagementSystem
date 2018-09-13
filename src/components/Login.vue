@@ -23,8 +23,8 @@
       return {
         loading: false,
         account: {
-          username: 'guxin',
-          pwd: '123456'
+          username: 'young',
+          pwd: '123123'
         },
         rules: {
           username: [
