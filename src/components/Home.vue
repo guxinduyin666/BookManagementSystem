@@ -1,83 +1,83 @@
 <template>
-  <el-row class="container">
-    <!--头部-->
-    <el-col :span="24" class="topbar-wrap">
-      <div class="topbar-logo topbar-btn">
-        <a href="/"><img src="../assets/logo.png" style="padding-left:8px;"></a>
-      </div>
-      <div class="topbar-logos" v-show="!collapsed">
-        <a href="/"><img src="../assets/logotxt.png"></a>
-      </div>
-      <div class="topbar-title">
-        <span style="font-size: 18px;color: #fff;">后台管理系统</span>
-      </div>
-      <div class="topbar-account topbar-btn">
-        <el-dropdown trigger="click">
-          <span class="el-dropdown-link userinfo-inner">
-            <i class="iconfont icon-user"></i> {{nickname}}
-            <i class="iconfont icon-down"></i>
-          </span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>
-              <div @click="jumpTo('/user/profile')">
-                <span style="color: #555;font-size: 14px;">个人信息</span>
-              </div>
-            </el-dropdown-item>
-            <el-dropdown-item>
-              <div @click="jumpTo('/user/changepwd')">
-                <span style="color: #555;font-size: 14px;">修改密码</span>
-              </div>
-            </el-dropdown-item>
-            <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </div>
-    </el-col>
+    <el-row class="container">
+        <!--头部-->
+        <el-col :span="24" class="topbar-wrap">
+            <div class="topbar-logo topbar-btn">
+                <a href="javascript:"><img src="../assets/book.png" style="padding-left:8px;"></a>
+            </div>
+            <div class="topbar-logos" v-show="!collapsed">
+                <a href="javascript:"><img src="../assets/booklogo.png"></a>
+            </div>
+            <div class="topbar-title">
+                <span style="font-size: 18px;color: #fff;">后台管理系统</span>
+            </div>
+            <div class="topbar-account topbar-btn">
+                <el-dropdown trigger="click">
+                    <span class="el-dropdown-link userinfo-inner">
+                        <i class="iconfont icon-user"></i> {{nickname}}
+                        <i class="iconfont icon-down"></i>
+                    </span>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item>
+                            <div @click="jumpTo('/user/profile')">
+                                <span style="color: #555;font-size: 14px;">个人信息</span>
+                            </div>
+                        </el-dropdown-item>
+                        <el-dropdown-item>
+                            <div @click="jumpTo('/user/changepwd')">
+                                <span style="color: #555;font-size: 14px;">修改密码</span>
+                            </div>
+                        </el-dropdown-item>
+                        <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
+            </div>
+        </el-col>
 
-    <!--中间-->
-    <el-col :span="24" class="main">
-      <!--左侧导航-->
-      <aside :class="{showSidebar:!collapsed}">
-        <!--展开折叠开关-->
-        <div class="menu-toggle" @click.prevent="collapse">
-          <i class="iconfont icon-menufold" v-show="!collapsed"></i>
-          <i class="iconfont icon-menuunfold" v-show="collapsed"></i>
-        </div>
-        <!--导航菜单-->
-        <el-menu :default-active="defaultActiveIndex" router :collapse="collapsed" @select="handleSelect">
-           <!--动态路由到子组件 将不可见的路径隐藏-->
-          <template v-for="(item,index) in $router.options.routes" v-if="item.menuShow">
-            <el-submenu v-if="!item.leaf" :index="index+''" :key="index">
-              <template slot="title">
-                <i :class="item.iconCls"></i>
-                <span slot="title">{{item.name}}</span>
-              </template>
-              <el-menu-item v-for="term in item.children" :key="term.path" :index="term.path" v-if="term.menuShow" :class="$route.path==term.path?'is-active':''">
-                <i :class="term.iconCls"></i>
-                <span slot="title">{{term.name}}</span>
-              </el-menu-item>
-            </el-submenu>
-            <el-menu-item v-else-if="item.leaf&&item.children&&item.children.length" :index="item.children[0].path" :class="$route.path==item.children[0].path?'is-active':''" :key="index">
-              <i :class="item.iconCls"></i>
-              <span slot="title">{{item.children[0].name}}</span>
-            </el-menu-item>
-          </template>
-        </el-menu>
-      </aside>
+        <!--中间-->
+        <el-col :span="24" class="main">
+            <!--左侧导航-->
+            <aside :class="{showSidebar:!collapsed}">
+                <!--展开折叠开关-->
+                <div class="menu-toggle" @click.prevent="collapse">
+                    <i class="iconfont icon-menufold" v-show="!collapsed"></i>
+                    <i class="iconfont icon-menuunfold" v-show="collapsed"></i>
+                </div>
+                <!--导航菜单-->
+                <el-menu :default-active="defaultActiveIndex" router :collapse="collapsed" @select="handleSelect">
+                    <!--动态路由到子组件 将不可见的路径隐藏-->
+                    <template v-for="(item,index) in $router.options.routes" v-if="item.menuShow">
+                        <el-submenu v-if="!item.leaf" :index="index+''" :key="index">
+                            <template slot="title">
+                                <i :class="item.iconCls"></i>
+                                <span slot="title">{{item.name}}</span>
+                            </template>
+                            <el-menu-item v-for="term in item.children" :key="term.path" :index="term.path" v-if="term.menuShow" :class="$route.path==term.path?'is-active':''">
+                                <i :class="term.iconCls"></i>
+                                <span slot="title">{{term.name}}</span>
+                            </el-menu-item>
+                        </el-submenu>
+                        <el-menu-item v-else-if="item.leaf&&item.children&&item.children.length" :index="item.children[0].path" :class="$route.path==item.children[0].path?'is-active':''" :key="index">
+                            <i :class="item.iconCls"></i>
+                            <span slot="title">{{item.children[0].name}}</span>
+                        </el-menu-item>
+                    </template>
+                </el-menu>
+            </aside>
 
-      <!--右侧内容区-->
-      <section class="content-container">
-        <div class="grid-content bg-purple-light">
-          <el-col :span="24" class="content-wrapper">
-            <transition name="fade" mode="out-in">
-              <router-view></router-view>
-            </transition>
-          </el-col>
-        </div>
-      </section>
-    </el-col>
+            <!--右侧内容区-->
+            <section class="content-container">
+                <div class="grid-content bg-purple-light">
+                    <el-col :span="24" class="content-wrapper">
+                        <transition name="fade" mode="out-in">
+                            <router-view></router-view>
+                        </transition>
+                    </el-col>
+                </div>
+            </section>
+        </el-col>
 
-  </el-row>
+    </el-row>
 </template>
 
 <script>
@@ -292,5 +292,8 @@ export default {
             box-sizing: border-box;
         }
     }
+}
+.el-menu--popup-right-start {
+    background-color: #dcdcdc;
 }
 </style>

@@ -15,7 +15,7 @@
             <el-card :body-style="{ padding: '0px' }">
               <img src="../assets/images/forest.png" class="image">
               <div style="padding: 14px;">
-                <span>一个例子而已</span>
+                <span>只见树木不见森林</span>
                 <div class="bottom clearfix">
                   <time class="time">{{ currentDate |data}}</time>
                 </div>
@@ -26,7 +26,7 @@
             <el-card :body-style="{ padding: '0px' }">
               <img src="../assets/images/sunrise.png" class="image">
               <div style="padding: 14px;">
-                <span>我是一张卡片</span>
+                <span>夕阳无限好</span>
                 <div class="bottom clearfix">
                   <time class="time">{{ currentDate |data}}</time>
                 </div>
@@ -149,7 +149,7 @@
         series: [{
           name: '藏书量',
           type: 'bar',
-          data: [15, 23, 36, 20, 10, 8]
+          data: [150, 230, 360, 200, 100, 80]
         }]
       });
 
@@ -197,13 +197,13 @@
 
       this.chartLine.setOption({
         title: {
-          text: 'Line Chart'
+          text: '各年级借阅情况'
         },
         tooltip: {
           trigger: 'axis'
         },
         legend: {
-          data: ['邮件营销', '联盟广告', '搜索引擎']
+          data: ['大一', '大二', '大三']
         },
         grid: {
           left: '3%',
@@ -221,19 +221,19 @@
         },
         series: [
           {
-            name: '邮件营销',
+            name: '大一',
             type: 'line',
             stack: '总量',
             data: [120, 132, 101, 134, 90, 230, 210]
           },
           {
-            name: '联盟广告',
+            name: '大二',
             type: 'line',
             stack: '总量',
             data: [220, 182, 191, 234, 290, 330, 310]
           },
           {
-            name: '搜索引擎',
+            name: '大三',
             type: 'line',
             stack: '总量',
             data: [820, 932, 901, 934, 1290, 1330, 1320]
@@ -243,8 +243,7 @@
 
       this.chartPie.setOption({
         title: {
-          text: 'Pie Chart',
-          subtext: '纯属虚构',
+          text: '藏书分类',
           x: 'center'
         },
         tooltip: {
@@ -254,7 +253,7 @@
         legend: {
           orient: 'vertical',
           left: 'left',
-          data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
+          data: ["哲学", "文学", "医学", "药学", "史学", "艺术"]
         },
         series: [
           {
@@ -263,11 +262,12 @@
             radius: '55%',
             center: ['50%', '60%'],
             data: [
-              { value: 335, name: '直接访问' },
-              { value: 310, name: '邮件营销' },
-              { value: 234, name: '联盟广告' },
-              { value: 135, name: '视频广告' },
-              { value: 1548, name: '搜索引擎' }
+              { value: 150, name: '哲学' },
+              { value: 230, name: '文学' },
+              { value: 360, name: '医学' },
+              { value: 200, name: '药学' },
+              { value: 100, name: '史学' },
+              { value: 80, name: '艺术' }
             ],
             itemStyle: {
               emphasis: {
