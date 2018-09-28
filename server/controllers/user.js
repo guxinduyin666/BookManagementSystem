@@ -100,9 +100,90 @@ userController.profile = function (req, res) {
 userController.changepwd = function (req, res) {
   //TODO 未开发
 };
+/**
+ * 添加角色
+ * @param req
+ * @param res
+ */
+userController.add = function (req, res) {
+  let name=req.body.name;
+  let userName=req.body.userName;
+  let password=req.body.password;
+  let role=req.body.role;
+  let gender=req.body.gender;
+  let email=req.body.email;
+  let address=req.body.address;
+
+  _Users.push({
+    id:_Users.length+1,
+    username: userName, 
+    name: name, 
+    password: password, 
+    email: email, 
+    nickname: role, 
+    sex: gender, //性别
+    addr: address
+  })
+  console.log(_Users);
+  res.json({"errcode": 0, "errmsg": "新增成功"})
+};
+/**
+ * 修改角色信息
+ * @param req
+ * @param res
+ */
+userController.put = function (req, res) {
+  console.log('req',req.body);
+  let name=req.body.name;
+  let userName=req.body.userName;
+  let password=req.body.password;
+  let role=req.body.role;
+  let gender=req.body.gender;
+  let email=req.body.email;
+  let address=req.body.address;
+  let id=req.body.id;
+  debugger;
+  _Users.forEach(function(item,index){
+    console.log(item.id==id,item.id,id);
+    if(item.id==id){
+      console.log('id',id);
+      console.log('index',index);
+      _Users[index]={
+        id:id,
+        username: userName, 
+        name: name, 
+        password: password, 
+        email: email, 
+        nickname: role, 
+        sex: gender, //性别
+        addr: address
+      }
+      console.log(_Users[index]);
+    }
+  })
+  console.log(66666);
+  res.json({"errcode": 0, "errmsg": "修改成功"})
+};
+/**
+ * 删除角色
+ * @param req
+ * @param res
+ */
+userController.remove = function (req, res) {
+  debugger;
+  console.log('req2',req.params.id);
+  let id=req.params.id;
+  _Users.forEach(function(item,index){
+    if(item.id==id){
+      _Users.splice(index, 1);
+    }
+  })
+  console.log(_Users);
+  res.json({"errcode": 0, "errmsg": "删除成功"})
+};
 
 /**
- * 通过书名查询，获取图书列表
+ * 通过关键字查询，获取角色列表
  * @param req
  * @param res
  */

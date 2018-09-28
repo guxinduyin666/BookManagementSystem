@@ -22,4 +22,16 @@ export default {
   findList: params => {
     return API.GET('/api/v1/users', params)
   },
+  // 新增角色
+  add: params=>{
+    return API.POST('/api/v1/users/add',params)
+  },
+  // 修改角色信息
+  put: params=>{
+    return API.POST('/api/v1/users/put',params)
+  },
+  // 删除角色
+  remove: id=>{
+    return API.DELETE(`/api/v1/users/${id}`)
+  }
 }

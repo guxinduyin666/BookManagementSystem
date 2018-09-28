@@ -13,7 +13,12 @@ var userController = require('../../../controllers/user');
 router.post('/login', userController.login);
 //用户退出
 router.get('/logout', userController.logout);
-
+//添加用户
+router.post('/add', userController.add);
+// 修改用户信息
+router.post('/put',userController.put);
+// 删除用户
+router.delete('/:id',userController.remove);
 //先检查登录
 router.use(userController.checkLogin);
 

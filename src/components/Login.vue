@@ -8,7 +8,7 @@
     <el-form-item prop="pwd">
       <el-input type="password" v-model="account.pwd" auto-complete="off" placeholder="密码"></el-input>
     </el-form-item>
-    <!--<el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>-->
+    <el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>
     <el-form-item style="width:100%;">
       <el-button type="primary" style="width:100%;" @click.native.prevent="handleLogin" :loading="loading">登录</el-button>
     </el-form-item>
@@ -53,7 +53,7 @@
 //                that.$store.commit('SET_ROUTERS', user.permissions)
 //                that.$router.addRoutes(that.$store.getters.addRouters);
 //                that.$router.options.routes = that.$store.getters.routers;
-                that.$router.push({path: '/'});
+                that.$router.push({path: '/home'});
               } else {
                 that.$message.error({showClose: true, message: result.errmsg || '登录失败', duration: 2000});
               }

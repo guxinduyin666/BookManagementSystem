@@ -19,12 +19,17 @@ let router = new Router({
 // mode: 'history',
   routes: [
     {
+      path: '/',
+      name: '登录',
+      component: Login
+    },
+    {
       path: '/login',
       name: '登录',
       component: Login
     },
     {
-      path: '/',
+      path: '/home',
       name: 'home',
       component: Home,
       redirect: '/dashboard',
@@ -36,18 +41,18 @@ let router = new Router({
       ]
     },
     {
-      path: '/',
+      path: '/home',
       component: Home,
       name: '用户管理',
       menuShow: true,
       leaf: true, // 只有一个节点
       iconCls: 'iconfont icon-users', // 图标样式class
       children: [
-        {path: '/user/list', component: UserList, name: '用户列表', menuShow: true}
+        {path: '/user/list/', component: UserList, name: '用户列表', menuShow: true}
       ]
     },
     {
-      path: '/',
+      path: '/home',
       component: Home,
       name: '图书管理',
       menuShow: true,
@@ -58,7 +63,7 @@ let router = new Router({
       ]
     },
     {
-      path: '/',
+      path: '/home',
       component: Home,
       name: '设置',
       menuShow: true,
