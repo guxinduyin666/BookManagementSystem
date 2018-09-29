@@ -9,12 +9,12 @@
                 <a href="javascript:"><img src="../assets/booklogo.png"></a>
             </div>
             <div class="topbar-title">
-                <span style="font-size: 18px;color: #fff;">后台管理系统</span>
+                <span style="font-size: 18px;color: #fff;">图书管理系统</span>
             </div>
             <div class="topbar-account topbar-btn">
                 <el-dropdown trigger="click">
                     <span class="el-dropdown-link userinfo-inner">
-                        <i class="iconfont icon-user"></i> {{nickname}}
+                        <i class="iconfont icon-user"></i> {{username}}--{{nickname}}
                         <i class="iconfont icon-down"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
@@ -159,6 +159,7 @@ export default {
         if (user) {
             user = JSON.parse(user);
             this.nickname = user.nickname || "";
+            this.username=user.username;
         }
     }
 };

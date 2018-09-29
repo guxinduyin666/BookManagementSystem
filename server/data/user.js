@@ -27,4 +27,15 @@ Users.push({
   addr: '江西省吉安市永丰县'
 });
 
+Users.push({
+  id: 3,
+  username: 'Lucy',
+  name: "不知火舞", //姓名
+  password: '123123',
+  email: '1078548311@qq.com',
+  nickname: '读者',
+  sex: 0, //性别
+  addr: '江苏省南京市江宁区'
+});
+
 module.exports = Users;

@@ -10,11 +10,11 @@
 
     <el-col :span="24" class="warp-main">
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="账号">
-          <el-input v-model="form.useranme" disabled></el-input>
+        <el-form-item label="用户名">
+          <el-input v-model="form.useranme"></el-input>
         </el-form-item>
-        <el-form-item prop="nickname" label="昵称">
-          <el-input v-model="form.nickname"></el-input>
+        <el-form-item prop="nickname" label="角色">
+          <el-input v-model="form.nickname" disabled></el-input>
         </el-form-item>
         <el-form-item prop="name" label="姓名">
           <el-input v-model="form.name"></el-input>

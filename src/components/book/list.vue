@@ -21,7 +21,7 @@
             <el-button type="primary" v-on:click="handleSearch">查询</el-button>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="showAddDialog">新增</el-button>
+            <el-button type="primary" v-if="nickname!='读者'" @click="showAddDialog">新增</el-button>
           </el-form-item>
         </el-form>
       </el-col>
@@ -44,8 +44,8 @@
         <el-table-column prop="publishAt" label="出版日期" width="150" sortable></el-table-column>
         <el-table-column label="操作" width="150">
           <template slot-scope="scope">
-            <el-button size="small" @click="showEditDialog(scope.$index,scope.row)">编辑</el-button>
-            <el-button type="danger" @click="delBook(scope.$index,scope.row)" size="small">删除</el-button>
+            <el-button size="small" :disabled="nickname=='读者'" @click="showEditDialog(scope.$index,scope.row)">编辑</el-button>
+            <el-button type="danger" :disabled="nickname=='读者'" @click="delBook(scope.$index,scope.row)" size="small">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -108,6 +108,7 @@ import util from "../../common/util";
 import API from "../../api/api_book";
 
 export default {
+    props: ["nickname"],
     data() {
         return {
             filters: {

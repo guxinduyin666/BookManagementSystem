@@ -17,9 +17,11 @@ userController.checkLogin = function (req, res, next) {
   //用户已经登录
   if (req.session.userId) {
     next();
-  }
-  else {
-    res.json({"errcode": 40001, "errmsg": "您还没有登录"});
+  } else {
+    res.json({
+      "errcode": 40001,
+      "errmsg": "您还没有登录"
+    });
   }
 };
 
@@ -32,7 +34,10 @@ userController.login = function (req, res) {
   let username = _.trim(req.query.username || req.body.username || '');
   let pwd = req.body.pwd;
   if (!username || !pwd) {
-    return res.json({"errcode": 40002, "errmsg": "不合法的参数"});
+    return res.json({
+      "errcode": 40002,
+      "errmsg": "不合法的参数"
+    });
   }
 
   // 通过用户名获取到用户信息
@@ -42,7 +47,10 @@ userController.login = function (req, res) {
   console.log('---_Users----');
   console.log(_Users);
   if (!user) {
-    return res.json({"errcode": 40003, "errmsg": "用户不存在"});
+    return res.json({
+      "errcode": 40003,
+      "errmsg": "用户不存在"
+    });
   }
   if (user.password === pwd) {
     //设置session
@@ -56,7 +64,10 @@ userController.login = function (req, res) {
       email: user.email
     });
   } else {
-    return res.json({"errcode": 40004, "errmsg": "密码错误"});
+    return res.json({
+      "errcode": 40004,
+      "errmsg": "密码错误"
+    });
   }
 };
 
@@ -67,7 +78,10 @@ userController.login = function (req, res) {
  */
 userController.logout = function (req, res) {
   req.session.destroy();
-  res.json({"errcode": 0, "errmsg": "退出完成"});
+  res.json({
+    "errcode": 0,
+    "errmsg": "退出完成"
+  });
 };
 
 /**
@@ -78,7 +92,7 @@ userController.logout = function (req, res) {
 userController.profile = function (req, res) {
   let nickname = req.body.nickname;
   let email = req.body.email;
-  let name  = req.body.name;
+  let name = req.body.name;
   let i = _.findIndex(_Users, function (u) {
     return u.id === req.session.userId
   })
@@ -86,9 +100,15 @@ userController.profile = function (req, res) {
     _Users[i].nickname = nickname;
     _Users[i].email = email;
     _Users[i].name = name;
-    res.json({"errcode": 0, "errmsg": "修改成功"});
+    res.json({
+      "errcode": 0,
+      "errmsg": "修改成功"
+    });
   } else {
-    res.json({"errcode": 40009, "errmsg": "处理失败"});
+    res.json({
+      "errcode": 40009,
+      "errmsg": "处理失败"
+    });
   }
 };
 
@@ -106,26 +126,28 @@ userController.changepwd = function (req, res) {
  * @param res
  */
 userController.add = function (req, res) {
-  let name=req.body.name;
-  let userName=req.body.userName;
-  let password=req.body.password;
-  let role=req.body.role;
-  let gender=req.body.gender;
-  let email=req.body.email;
-  let address=req.body.address;
+  let name = req.body.name;
+  let userName = req.body.userName;
+  let password = req.body.password;
+  let role = req.body.role;
+  let gender = req.body.gender;
+  let email = req.body.email;
+  let address = req.body.address;
 
   _Users.push({
-    id:_Users.length+1,
-    username: userName, 
-    name: name, 
-    password: password, 
-    email: email, 
-    nickname: role, 
+    id: _Users.length + 1,
+    username: userName,
+    name: name,
+    password: password,
+    email: email,
+    nickname: role,
     sex: gender, //性别
     addr: address
   })
-  console.log(_Users);
-  res.json({"errcode": 0, "errmsg": "新增成功"})
+  res.json({
+    "errcode": 0,
+    "errmsg": "新增成功"
+  })
 };
 /**
  * 修改角色信息
@@ -133,36 +155,33 @@ userController.add = function (req, res) {
  * @param res
  */
 userController.put = function (req, res) {
-  console.log('req',req.body);
-  let name=req.body.name;
-  let userName=req.body.userName;
-  let password=req.body.password;
-  let role=req.body.role;
-  let gender=req.body.gender;
-  let email=req.body.email;
-  let address=req.body.address;
-  let id=req.body.id;
+  let name = req.body.name;
+  let userName = req.body.userName;
+  let password = req.body.password;
+  let role = req.body.role;
+  let gender = req.body.gender;
+  let email = req.body.email;
+  let address = req.body.address;
+  let id = req.body.id;
   debugger;
-  _Users.forEach(function(item,index){
-    console.log(item.id==id,item.id,id);
-    if(item.id==id){
-      console.log('id',id);
-      console.log('index',index);
-      _Users[index]={
-        id:id,
-        username: userName, 
-        name: name, 
-        password: password, 
-        email: email, 
-        nickname: role, 
+  _Users.forEach(function (item, index) {
+    if (item.id == id) {
+      _Users[index] = {
+        id: id,
+        username: userName,
+        name: name,
+        password: password,
+        email: email,
+        nickname: role,
         sex: gender, //性别
         addr: address
       }
-      console.log(_Users[index]);
     }
   })
-  console.log(66666);
-  res.json({"errcode": 0, "errmsg": "修改成功"})
+  res.json({
+    "errcode": 0,
+    "errmsg": "修改成功"
+  })
 };
 /**
  * 删除角色
@@ -170,16 +189,16 @@ userController.put = function (req, res) {
  * @param res
  */
 userController.remove = function (req, res) {
-  debugger;
-  console.log('req2',req.params.id);
-  let id=req.params.id;
-  _Users.forEach(function(item,index){
-    if(item.id==id){
+  let id = req.params.id;
+  _Users.forEach(function (item, index) {
+    if (item.id == id) {
       _Users.splice(index, 1);
     }
   })
-  console.log(_Users);
-  res.json({"errcode": 0, "errmsg": "删除成功"})
+  res.json({
+    "errcode": 0,
+    "errmsg": "删除成功"
+  })
 };
 
 /**
