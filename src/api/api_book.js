@@ -31,6 +31,17 @@ export default {
   //批量删除，传ids数组
   removeBatch: (ids) => {
     return API.DELETE(`/api/v1/books/batch/${ids}`)
+  },
+  // 借书
+  lend:(params)=>{
+    return API.POST('/api/v1/books/lend',params)
+  },
+  // 查询已借书籍
+  queryLendBooks:(params)=>{
+    return API.POST('/api/v1/books/queryLendBooks',params);
+  },
+  // 还书
+  returnBook:(params)=>{
+    return API.POST('api/v1/books/returnBook',params)
   }
-
 }

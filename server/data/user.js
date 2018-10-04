@@ -13,7 +13,8 @@ Users.push({
   email: '1980901451@qq.com', //邮箱
   nickname: '系统管理员', //昵称
   sex: 1, //性别
-  addr: '江西省吉安市永丰县'
+  addr: '江西省吉安市永丰县',
+  books:[]
 });
 
 Users.push({
@@ -24,7 +25,8 @@ Users.push({
   email: '1277949393@qq.com',
   nickname: '普通管理员',
   sex: 1, //性别
-  addr: '江西省吉安市永丰县'
+  addr: '江西省吉安市永丰县',
+  books:[]
 });
 
 Users.push({
@@ -35,7 +37,8 @@ Users.push({
   email: '1078548311@qq.com',
   nickname: '读者',
   sex: 0, //性别
-  addr: '江苏省南京市江宁区'
+  addr: '江苏省南京市江宁区',
+  books:[]
 });
 
 module.exports = Users;

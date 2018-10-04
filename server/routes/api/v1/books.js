@@ -32,7 +32,13 @@ router.delete('/batch/:ids', bookController.deleteBatch);
 //删除指定的book
 router.delete('/:id', bookController.delete);
 
+// 借书
+router.post('/lend',bookController.lend);
 
+// 查询已借书籍
+router.post('/queryLendBooks',bookController.queryLendBooks);
+// 还书
+router.post('/returnBook',bookController.returnBook);
 
 indexRouter.router = router;
 
