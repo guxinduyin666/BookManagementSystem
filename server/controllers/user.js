@@ -45,7 +45,6 @@ userController.login = function (req, res) {
     return u.username === username;
   });
   console.log('---_Users----');
-  console.log(_Users);
   if (!user) {
     return res.json({
       "stateCode": 40003,
