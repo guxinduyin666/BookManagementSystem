@@ -191,11 +191,10 @@ export default {
                         API.add(para)
                             .then(
                                 function(result) {
+                                    debugger;
                                     that.loading = false;
-                                    if (
-                                        result &&
-                                        parseInt(result.errcode) === 0
-                                    ) {
+                                    if (result&&parseInt(result.stateCode) === 0) {
+                                        debugger;
                                         that.$message.success({
                                             showClose: true,
                                             message: "新增成功",
@@ -208,7 +207,7 @@ export default {
                                         that.loading = false;
                                         that.$message.error({
                                             showClose: true,
-                                            message: "新增失败",
+                                            message: result.stateMsg,
                                             duration: 2000
                                         });
                                     }
@@ -239,7 +238,7 @@ export default {
                                     that.loading = false;
                                     if (
                                         result &&
-                                        parseInt(result.errcode) === 0
+                                        parseInt(result.stateCode) === 0
                                     ) {
                                         that.$message.success({
                                             showClose: true,
@@ -253,7 +252,7 @@ export default {
                                         that.loading = false;
                                         that.$message.error({
                                             showClose: true,
-                                            message: "修改失败",
+                                            message: result.stateMsg,
                                             duration: 2000
                                         });
                                     }
@@ -290,7 +289,7 @@ export default {
                     .then(
                         function(result) {
                             that.loading = false;
-                            if (result && parseInt(result.errcode) === 0) {
+                            if (result && parseInt(result.stateCode) === 0) {
                                 that.$message.success({
                                     showClose: true,
                                     message: "删除成功",

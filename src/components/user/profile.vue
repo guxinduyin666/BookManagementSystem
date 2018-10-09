@@ -68,7 +68,7 @@
             };
             API.changeProfile(args).then(function (result) {
               that.loading = false;
-              if (result && parseInt(result.errcode) === 0) {
+              if (result && parseInt(result.stateCode) === 0) {
                 //修改成功
                 let user = JSON.parse(window.localStorage.getItem('access-user'));
                 user.nickname = that.form.nickname;

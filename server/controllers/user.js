@@ -19,8 +19,8 @@ userController.checkLogin = function (req, res, next) {
     next();
   } else {
     res.json({
-      "errcode": 40001,
-      "errmsg": "您还没有登录"
+      "stateCode": 40001,
+      "stateMsg": "您还没有登录"
     });
   }
 };
@@ -35,8 +35,8 @@ userController.login = function (req, res) {
   let pwd = req.body.pwd;
   if (!username || !pwd) {
     return res.json({
-      "errcode": 40002,
-      "errmsg": "不合法的参数"
+      "stateCode": 40002,
+      "stateMsg": "不合法的参数"
     });
   }
 
@@ -48,8 +48,8 @@ userController.login = function (req, res) {
   console.log(_Users);
   if (!user) {
     return res.json({
-      "errcode": 40003,
-      "errmsg": "用户不存在"
+      "stateCode": 40003,
+      "stateMsg": "用户不存在"
     });
   }
   if (user.password === pwd) {
@@ -65,8 +65,8 @@ userController.login = function (req, res) {
     });
   } else {
     return res.json({
-      "errcode": 40004,
-      "errmsg": "密码错误"
+      "stateCode": 40004,
+      "stateMsg": "密码错误"
     });
   }
 };
@@ -79,8 +79,8 @@ userController.login = function (req, res) {
 userController.logout = function (req, res) {
   req.session.destroy();
   res.json({
-    "errcode": 0,
-    "errmsg": "退出完成"
+    "stateCode": 0,
+    "stateMsg": "退出完成"
   });
 };
 
@@ -101,13 +101,13 @@ userController.profile = function (req, res) {
     _Users[i].email = email;
     _Users[i].name = name;
     res.json({
-      "errcode": 0,
-      "errmsg": "修改成功"
+      "stateCode": 0,
+      "stateMsg": "修改成功"
     });
   } else {
     res.json({
-      "errcode": 40009,
-      "errmsg": "处理失败"
+      "stateCode": 40009,
+      "stateMsg": "处理失败"
     });
   }
 };
@@ -133,7 +133,20 @@ userController.add = function (req, res) {
   let gender = req.body.gender;
   let email = req.body.email;
   let address = req.body.address;
-
+  let flag = false;
+  _Users.some(function (item, index) {
+    if (userName == item.username) {
+      flag = true;
+      return true;
+    }
+  })
+  if (flag) {
+    return res.json({
+      stateCode: 100,
+      stateMsg: '重复的用户名'
+    })
+  }
+  console.log('即将新增');
   _Users.push({
     id: _Users.length + 1,
     username: userName,
@@ -145,8 +158,8 @@ userController.add = function (req, res) {
     addr: address
   })
   res.json({
-    "errcode": 0,
-    "errmsg": "新增成功"
+    "stateCode": 0,
+    "stateMsg": "新增成功"
   })
 };
 /**
@@ -163,7 +176,19 @@ userController.put = function (req, res) {
   let email = req.body.email;
   let address = req.body.address;
   let id = req.body.id;
-  debugger;
+  let flag=false;
+  _Users.some(function (item, index) {
+    if (userName == item.username) {
+      flag = true;
+      return true;
+    }
+  })
+  if (flag) {
+    return res.json({
+      stateCode: 100,
+      stateMsg: '重复的用户名'
+    })
+  }
   _Users.forEach(function (item, index) {
     if (item.id == id) {
       _Users[index] = {
@@ -179,8 +204,8 @@ userController.put = function (req, res) {
     }
   })
   res.json({
-    "errcode": 0,
-    "errmsg": "修改成功"
+    "stateCode": 0,
+    "stateMsg": "修改成功"
   })
 };
 /**
@@ -196,8 +221,8 @@ userController.remove = function (req, res) {
     }
   })
   res.json({
-    "errcode": 0,
-    "errmsg": "删除成功"
+    "stateCode": 0,
+    "stateMsg": "删除成功"
   })
 };
 
