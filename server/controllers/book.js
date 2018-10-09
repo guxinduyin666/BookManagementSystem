@@ -38,7 +38,7 @@ bookController.find = function (req, res) {
 };
 
 /**
- * 通过id获取某一条图书新
+ * 通过id获取某一条图书
  * @param req
  * @param res
  */
@@ -46,8 +46,8 @@ bookController.findById = function (req, res) {
   let id = _.trim(req.params.id || '');
   if (!id) {
     return res.json({
-      "errcode": 40002,
-      "errmsg": "不合法的参数"
+      "stateCode": 40002,
+      "stateMsg": "不合法的参数"
     });
   }
   let book = _.find(_Books, function (b) {
@@ -74,8 +74,8 @@ bookController.create = function (req, res) {
     publishAt: publishAt
   });
   res.json({
-    "errcode": 0,
-    "errmsg": "新增成功"
+    "stateCode": 0,
+    "stateMsg": "新增成功"
   })
 };
 
@@ -88,8 +88,8 @@ bookController.update = function (req, res) {
   let id = _.trim(req.params.id || '');
   if (!id) {
     return res.json({
-      "errcode": 40002,
-      "errmsg": "不合法的参数"
+      "stateCode": 40002,
+      "stateMsg": "不合法的参数"
     });
   }
   let name = req.body.name;
@@ -106,13 +106,13 @@ bookController.update = function (req, res) {
     _Books[i].description = description;
     _Books[i].publishAt = publishAt;
     res.json({
-      "errcode": 0,
-      "errmsg": "修改成功"
+      "stateCode": 0,
+      "stateMsg": "修改成功"
     });
   } else {
     res.json({
-      "errcode": 40009,
-      "errmsg": "处理失败"
+      "stateCode": 40009,
+      "stateMsg": "修改失败"
     });
   }
 };
@@ -136,8 +136,8 @@ bookController.deleteBatch = function (req, res) {
   ids = ids.split(',');
   _Books = _Books.filter(b => !ids.includes(b.id))
   res.json({
-    "errcode": 0,
-    "errmsg": "删除成功"
+    "stateCode": 0,
+    "stateMsg": "删除成功"
   });
 };
 
@@ -150,8 +150,8 @@ bookController.delete = function (req, res) {
   let id = _.trim(req.params.id || '');
   if (!id) {
     return res.json({
-      "errcode": 40002,
-      "errmsg": "不合法的参数"
+      "stateCode": 40002,
+      "stateMsg": "不合法的参数"
     });
   }
   let i = _.findIndex(_Books, function (u) {
@@ -160,13 +160,13 @@ bookController.delete = function (req, res) {
   if (i > -1) {
     _Books.splice(i, 1);
     res.json({
-      "errcode": 0,
-      "errmsg": "修改成功"
+      "stateCode": 0,
+      "stateMsg": "删除成功"
     });
   } else {
     res.json({
-      "errcode": 40009,
-      "errmsg": "处理失败"
+      "stateCode": 40009,
+      "stateMsg": "处理失败"
     });
   }
 };
@@ -179,35 +179,44 @@ bookController.lend = function (req, res) {
   let username = req.body.username;
   let book = req.body.book;
   let user = null;
-  let today=new Date();
-  let returnDate=new Date(today);
-  returnDate=new Date(returnDate.setDate(today.getDate()+30));
-  returnDate=returnDate.getFullYear()+'-'+(returnDate.getMonth()+1)+'-'+returnDate.getDate();
-  book.returnDate=returnDate;
+  // 计算应还日期，默认为30天
+  let today = new Date();
+  let returnDate = new Date(today);
+  returnDate = new Date(returnDate.setDate(today.getDate() + 30));
+  returnDate = returnDate.getFullYear() + '-' + (returnDate.getMonth() + 1) + '-' + returnDate.getDate();
+  book.returnDate = returnDate;
   // 根据username查询出借书的user
   _Users.forEach(function (item, index) {
     if (item.username == username) {
       user = _Users[index];
     }
   })
-  // 根据bookID查找所借书籍,将其标记为已借
-  _Books.forEach(function(item,index){
-    if(item.id==book.id){
-      item.isLended=true;
-    }
-  })
+
   if (user === null) {
-    res.json({
-      "errcode": 40009,
-      "errmsg": "不存在的用户"
-    })
-  } else {
-    user.books.push(book);
-    res.json({
-      "errcode": 0,
-      "errmsg": "借书成功"
+    return res.json({
+      "stateCode": 40009,
+      "stateMsg": "不存在的用户"
     })
   }
+  if (user.books.length >= 5) {
+    return res.json({
+      "stateCode": 40005,
+      "stateMsg": "对不起，该用户最多只能借阅5本书，请先归还其他书籍。"
+    })
+  }
+  book.renewCount = 0;
+  user.books.push(book);
+  // 根据bookID查找所借书籍,将其标记为已借
+  _Books.forEach(function (item, index) {
+    if (item.id == book.id) {
+      item.isLended = true;
+    }
+  })
+  res.json({
+    "stateCode": 0,
+    "stateMsg": "借书成功"
+  })
+
   console.log(user);
 };
 /**
@@ -217,7 +226,7 @@ bookController.lend = function (req, res) {
  */
 bookController.queryLendBooks = function (req, res) {
   let username = req.body.username;
-  let user=null;
+  let user = null;
   // 根据username查询出借书的user
   _Users.forEach(function (item, index) {
     if (item.username == username) {
@@ -225,8 +234,8 @@ bookController.queryLendBooks = function (req, res) {
     }
   })
   res.json({
-	  stateCode:0,
-	  books:user.books
+    stateCode: 0,
+    books: user.books
   })
 }
 /**
@@ -236,8 +245,8 @@ bookController.queryLendBooks = function (req, res) {
  */
 bookController.returnBook = function (req, res) {
   let username = req.body.username;
-  let bookId=req.body.book.id;
-  let user=null;
+  let bookId = req.body.book.id;
+  let user = null;
   console.log(req.body);
   // 根据username查询出借书的user
   _Users.forEach(function (item, index) {
@@ -247,20 +256,20 @@ bookController.returnBook = function (req, res) {
   })
   console.log(user);
   // 根据id查找需要还书的书籍，并将其从已借阅书籍中删除
-  user.books.forEach(function(item,index){
-    if(item.id==bookId){
-      user.books.splice(index,1);
+  user.books.forEach(function (item, index) {
+    if (item.id == bookId) {
+      user.books.splice(index, 1);
     }
   })
   // 在图书列表中将已借标记删除
-  _Books.forEach(function(item,index){
-    if(item.id==bookId){
-      item.isLended=false;
+  _Books.forEach(function (item, index) {
+    if (item.id == bookId) {
+      item.isLended = false;
     }
   })
   res.json({
-	  stateCode:0,
-	  books:user.books
+    stateCode: 0,
+    books: user.books
   })
   console.log(user.books);
 }
@@ -271,8 +280,8 @@ bookController.returnBook = function (req, res) {
  */
 bookController.renew = function (req, res) {
   let username = req.body.username;
-  let bookId=req.body.book.id;
-  let user=null;
+  let bookId = req.body.book.id;
+  let user = null;
   let returnDate;
   console.log(req.body);
   // 根据username查询出借书的user
@@ -283,17 +292,24 @@ bookController.renew = function (req, res) {
   })
   console.log(user);
   // 根据id查找需要还书的书籍，并修改其应还日期
-  user.books.forEach(function(item,index){
-    if(item.id==bookId){
-      returnDate=new Date(item.returnDate);
-      returnDate=new Date(returnDate.setDate(returnDate.getDate()+30));
-      returnDate=returnDate.getFullYear()+'-'+(returnDate.getMonth()+1)+'-'+returnDate.getDate();
-      item.returnDate=returnDate;
+  user.books.forEach(function (item, index) {
+    if (item.id == bookId) {
+      if (item.renewCount >= 4) {
+        return res.json({
+          "stateCode": 100,
+          "stateMsg": "一本书最多只能续借4次"
+        })
+      }
+      returnDate = new Date(item.returnDate);
+      returnDate = new Date(returnDate.setDate(returnDate.getDate() + 30));
+      returnDate = returnDate.getFullYear() + '-' + (returnDate.getMonth() + 1) + '-' + returnDate.getDate();
+      item.returnDate = returnDate;
+      item.renewCount++;
     }
   })
   res.json({
-	  stateCode:0,
-	  books:user.books
+    stateCode: 0,
+    books: user.books
   })
   console.log(user.books);
 }

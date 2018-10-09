@@ -185,15 +185,20 @@ export default {
             API.lend(param).then(
                 function(resp) {
                     that.loading = false;
-                    if (resp && parseInt(resp.errcode) === 0) {
+                    if (resp && parseInt(resp.stateCode) === 0) {
                         that.$message.success({
                             showClose: true,
-                            message: "借书成功",
+                            message: resp.stateMsg,
                             duration: 1500
                         });
                         that.handleSearch();
-                        // rowData.isLended=true;
-                        // that.$set(rowData,'isLended',true);
+                    }else{
+                        that.$message.error({
+                            showClose: true,
+                            message: resp.stateMsg,
+                            duration: 1500
+                        });
+                        that.handleSearch();
                     }
                 },
                 function(err) {
@@ -256,10 +261,10 @@ export default {
                         .then(
                             function(result) {
                                 that.loading = false;
-                                if (result && parseInt(result.errcode) === 0) {
+                                if (result && parseInt(result.stateCode) === 0) {
                                     that.$message.success({
                                         showClose: true,
-                                        message: "删除成功",
+                                        message: result.stateMsg,
                                         duration: 1500
                                     });
                                     that.search();
@@ -277,6 +282,7 @@ export default {
                         .catch(function(error) {
                             that.loading = false;
                             console.log(error);
+                            debugger;
                             that.$message.error({
                                 showClose: true,
                                 message: "请求出现异常",
@@ -309,10 +315,10 @@ export default {
                         .then(
                             function(result) {
                                 that.loading = false;
-                                if (result && parseInt(result.errcode) === 0) {
+                                if (result && parseInt(result.stateCode) === 0) {
                                     that.$message.success({
                                         showClose: true,
-                                        message: "修改成功",
+                                        message: result.stateMsg,
                                         duration: 2000
                                     });
                                     that.$refs["editForm"].resetFields();
@@ -321,7 +327,7 @@ export default {
                                 } else {
                                     that.$message.error({
                                         showClose: true,
-                                        message: "修改失败",
+                                        message: result.stateMsg,
                                         duration: 2000
                                     });
                                 }
@@ -374,10 +380,10 @@ export default {
                         .then(
                             function(result) {
                                 that.loading = false;
-                                if (result && parseInt(result.errcode) === 0) {
+                                if (result && parseInt(result.stateCode) === 0) {
                                     that.$message.success({
                                         showClose: true,
-                                        message: "新增成功",
+                                        message: result.stateMsg,
                                         duration: 2000
                                     });
                                     that.$refs["addForm"].resetFields();
@@ -425,10 +431,10 @@ export default {
                         .then(
                             function(result) {
                                 that.loading = false;
-                                if (result && parseInt(result.errcode) === 0) {
+                                if (result && parseInt(result.stateCode) === 0) {
                                     that.$message.success({
                                         showClose: true,
-                                        message: "删除成功",
+                                        message: result.stateMsg,
                                         duration: 1500
                                     });
                                     that.search();

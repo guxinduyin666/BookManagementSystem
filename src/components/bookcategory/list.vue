@@ -78,7 +78,7 @@ export default {
                 function() {}
             );
         },
-        renew(index,book) {
+        renew(index, book) {
             let params = {
                 username: this.username,
                 book: book
@@ -86,12 +86,20 @@ export default {
             let that = this;
             API.renew(params).then(
                 function(result) {
-                    that.books = result.books;
-                    that.$message.success({
-                        showClose: true,
-                        message: "续借成功",
-                        duration: 1500
-                    });
+                    if (result && result.stateCode == 0) {
+                        that.books = result.books;
+                        that.$message.success({
+                            showClose: true,
+                            message: "续借成功",
+                            duration: 1500
+                        });
+                    } else {
+                        that.$message.error({
+                            showClose: true,
+                            message: result.stateMsg,
+                            duration: 1500
+                        });
+                    }
                 },
                 function() {}
             );
