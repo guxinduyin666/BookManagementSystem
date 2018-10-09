@@ -59,7 +59,7 @@ let router = new Router({
       iconCls: 'iconfont icon-books',
       children: [
         {path: '/book/list', component: BookList, name: '图书列表', menuShow: true},
-        {path: '/book/category', component: BookCategoryList, name: '图书分类', menuShow: true}
+        {path: '/book/category', component: BookCategoryList, name: '还书管理', menuShow: true}
       ]
     },
     {

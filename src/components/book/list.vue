@@ -44,7 +44,7 @@
                 <el-table-column prop="publishAt" label="出版日期" width="100" sortable></el-table-column>
                 <el-table-column label="操作" width="220">
                     <template slot-scope="scope">
-                        <el-button size="small" @click="lend(scope.$index,scope.row)">借书</el-button>
+                        <el-button size="small" :disabled="scope.row.isLended" @click="lend(scope.$index,scope.row)">借书</el-button>
                         <el-button size="small" :disabled="nickname=='读者'" @click="showEditDialog(scope.$index,scope.row)">编辑</el-button>
                         <el-button type="danger" :disabled="nickname=='读者'" @click="delBook(scope.$index,scope.row)" size="small">删除</el-button>
                     </template>
@@ -191,6 +191,9 @@ export default {
                             message: "借书成功",
                             duration: 1500
                         });
+                        that.handleSearch();
+                        // rowData.isLended=true;
+                        // that.$set(rowData,'isLended',true);
                     }
                 },
                 function(err) {

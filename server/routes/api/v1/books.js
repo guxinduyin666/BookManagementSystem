@@ -39,6 +39,8 @@ router.post('/lend',bookController.lend);
 router.post('/queryLendBooks',bookController.queryLendBooks);
 // 还书
 router.post('/returnBook',bookController.returnBook);
+// 续借
+router.post('/renew',bookController.renew);
 
 indexRouter.router = router;
 

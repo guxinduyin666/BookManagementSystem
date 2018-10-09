@@ -43,5 +43,9 @@ export default {
   // 还书
   returnBook:(params)=>{
     return API.POST('api/v1/books/returnBook',params)
+  },
+  // 续借
+  renew:(params)=>{
+    return API.POST('api/v1/books/renew',params)
   }
 }

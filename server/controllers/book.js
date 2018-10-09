@@ -179,10 +179,21 @@ bookController.lend = function (req, res) {
   let username = req.body.username;
   let book = req.body.book;
   let user = null;
+  let today=new Date();
+  let returnDate=new Date(today);
+  returnDate=new Date(returnDate.setDate(today.getDate()+30));
+  returnDate=returnDate.getFullYear()+'-'+(returnDate.getMonth()+1)+'-'+returnDate.getDate();
+  book.returnDate=returnDate;
   // 根据username查询出借书的user
   _Users.forEach(function (item, index) {
     if (item.username == username) {
       user = _Users[index];
+    }
+  })
+  // 根据bookID查找所借书籍,将其标记为已借
+  _Books.forEach(function(item,index){
+    if(item.id==book.id){
+      item.isLended=true;
     }
   })
   if (user === null) {
@@ -239,6 +250,45 @@ bookController.returnBook = function (req, res) {
   user.books.forEach(function(item,index){
     if(item.id==bookId){
       user.books.splice(index,1);
+    }
+  })
+  // 在图书列表中将已借标记删除
+  _Books.forEach(function(item,index){
+    if(item.id==bookId){
+      item.isLended=false;
+    }
+  })
+  res.json({
+	  stateCode:0,
+	  books:user.books
+  })
+  console.log(user.books);
+}
+/**
+ * 续借
+ * @param req
+ * @param res
+ */
+bookController.renew = function (req, res) {
+  let username = req.body.username;
+  let bookId=req.body.book.id;
+  let user=null;
+  let returnDate;
+  console.log(req.body);
+  // 根据username查询出借书的user
+  _Users.forEach(function (item, index) {
+    if (item.username == username) {
+      user = _Users[index];
+    }
+  })
+  console.log(user);
+  // 根据id查找需要还书的书籍，并修改其应还日期
+  user.books.forEach(function(item,index){
+    if(item.id==bookId){
+      returnDate=new Date(item.returnDate);
+      returnDate=new Date(returnDate.setDate(returnDate.getDate()+30));
+      returnDate=returnDate.getFullYear()+'-'+(returnDate.getMonth()+1)+'-'+returnDate.getDate();
+      item.returnDate=returnDate;
     }
   })
   res.json({
